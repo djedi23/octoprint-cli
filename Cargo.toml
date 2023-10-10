@@ -1,0 +1,39 @@
+[package]
+name = "octoprint-cli"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+chrono = { version = "0.4", default-features = false, features = ["std","serde"] }
+clap = { version = "4.3", features = ["env","unicode","wrap_help","cargo"] }
+crud-api = {version="0.1", default-features=false, features=["toml","json","yaml"]}
+crud-auth = {version="0.1"}
+crud-auth-bearer = {version="0.1"}
+crud-pretty-struct = {version="0.1", features=["chrono","humantime","bytesize"]}
+
+hyper = { version = "0.14", features = ["client","http1"] }
+log = "0.4"
+miette = { version = "5.10", features = ["fancy"] }
+pretty_env_logger = "0.5"
+serde = { version = "1.0", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+parse-display = "0.5"
+is-terminal = "0.4"
+owo-colors = "3.5"
+openssl = { version = "0.10" }
+# To force static openssl
+#openssl = { version = "0.10", features = ["vendored"] }
+
+
+
+[profile.release]
+opt-level = "z"     # Optimize for size.
+lto = true          # Enable Link Time Optimization
+codegen-units = 1   # Reduce number of codegen units to increase optimizations.
+panic = "abort"     # Abort on panic
+strip = true        # Automatically strip symbols from the binary.
+
+
+#[package.metadata.bundle]
